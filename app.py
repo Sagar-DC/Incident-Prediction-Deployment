@@ -48,28 +48,29 @@ def home():
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    test = pd.read_csv('Data/test.csv')
-    test_df = test.copy()
-    test.drop(["S.No", "change_request","problem_ID" ], axis=1, inplace=True)
-    test.drop(["ID", "ID_caller", "opened_by", 'opened_time', "Created_by", "created_at", "updated_by", "updated_at"], axis=1, inplace=True)
-
-    imp_test = imputer.fit_transform(test)
-    imp_test = pd.DataFrame(imp_test, columns = test.columns)
-
-    encode_df(imp_test)
+    if request.method == 'POST':
+        test = pd.read_csv('Data/test.csv')
+        test_df = test.copy()
+        test.drop(["S.No", "change_request","problem_ID" ], axis=1, inplace=True)
+        test.drop(["ID", "ID_caller", "opened_by", 'opened_time', "Created_by", "created_at", "updated_by", "updated_at"], axis=1, inplace=True)
+        
+        imp_test = imputer.fit_transform(test)
+        imp_test = pd.DataFrame(imp_test, columns = test.columns)
+        
+        encode_df(imp_test)
     
-    my_prediction = clf.predict(imp_test.values)
-    my_prediction = my_prediction.tolist()
-    my = my_prediction[0:10]
-    data = { 'ID' : test_df.ID, 'Prediction' : my_prediction}
-    Pred_df = pd.DataFrame(data= data)
-    test_shape = Pred_df.shape
-    my = Pred_df['ID'].head(3)
-    n = len(my_prediction)
+        my_prediction = clf.predict(imp_test.values)
+        my_prediction = my_prediction.tolist()
+        my = my_prediction[0:10]
+        data = { 'ID' : test_df.ID, 'Prediction' : my_prediction}
+        Pred_df = pd.DataFrame(data= data)
+        test_shape = Pred_df.shape
+        my = Pred_df['ID'].head(3)
+        n = len(my_prediction)
     
-    Pred_df.to_csv('downloadFile.csv', index=False)
+        Pred_df.to_csv('downloadFile.csv', index=False)
     
-    #return render_template('result.html',prediction = my, col_num = n, na_num = test_shape)
+        #return render_template('result.html',prediction = my, col_num = n, na_num = test_shape)
 
     return send_file('downloadFile.csv',
                      mimetype='text/csv',
