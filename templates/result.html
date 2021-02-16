@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<style>
+
+.align_head{
+  margin: auto;
+  width: 80%;
+  color: blue;
+  padding: 30px;
+}
+
+.align_table{
+  margin: auto;
+  width: 50%;
+  padding: 2px;
+}
+</style>
+
+<body>
+    <header>
+        <h2 class="align_head">Incident Prediction</h2>
+    </header>
+
+    <h3> Prediction of the Uploaded Incidents are completed </h3>
+    
+    <p> Prediction of Incidents are performed after Imputing the NA values and encoding the Categorical Data </p>
+    <p style= "padding:50"> Number of Incidents Uploaded : {{ na_num }} <p>
+    
+
+    <div class="align_table">
+        <p> Prediction of First 5 Incidents </p>
+        <table align="center" border="2">
+            <thead>
+                <tr><th>ID</th>
+                <th>Prediction</th></tr>
+            </thead>
+            <tbody>
+              {# here we iterate over Pred_df items #}
+                {% for i in range(0,6) %}
+                <tr>
+                    <td>{{ pred_ID[i] }}</td>
+                    <td>{{ prediction[i] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <form action="{{ url_for('download')}}" method="POST">
+            <button type="submit" value="predict" class="btn btn-primary btn-lg">Download Prediction</button>
+        </form>
+     </div>       
+        <br>
+        <hr>
+
+        <form>
+          <input type="button" value="Want to search again, go back!" onclick="history.go(-1)">
+        </form>
+</body>
+</html>

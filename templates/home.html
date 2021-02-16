@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ML API</title>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+</head>
+<body>
+
+<style>
+.center{
+  line-height: 200px;
+  height: 200px;
+  text-align: center;
+}
+
+.loader{
+  position: absolute;
+  left: 52%;
+  top: 68%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;  
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin{
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin{
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.blink{
+      position: absolute;
+      left: 45%;
+      top: 59%;
+      animation: blinker 0.6s linear infinite;
+      color: #1c87c9;
+      font-size: 30px;
+      font-weight: bold;
+      font-family: sans-serif;
+}
+
+@keyframes blinker{  
+50% { opacity: 0; }
+}
+</style>
+
+	<header>
+		<div class="center">
+			Machine Learning App with Flask
+		</div>
+		
+		<h2>Incident Prediction</h2>
+	</header>
+
+	<form action="{{ url_for('predict')}}" method="POST">
+		<button type="submit" value="predict" class="btn btn-primary btn-lg" onclick="$('#loading').show();">Predict</button>
+	</form>
+	
+	<div id="loading" class="center" style="display:none;" >
+        	
+    	<div class="loader" >
+    	
+    	</div>
+    	<blink><p class="blink">Predicting.........</p> </blink>
+    </div>
+
+</body>
+</html>
